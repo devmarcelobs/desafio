@@ -3,47 +3,51 @@ package com.desafio.estagio.dto;
 import java.util.List;
 
 import com.desafio.estagio.model.Book;
-import com.desafio.estagio.model.Client;
 
 public class InvoiceDTO {
-    private Client client;
-    private List<Book> list;
+    private ClientDTO clientDto;
+    private List<Book> books;
     private Float value;
 
     public InvoiceDTO() {
     }
 
-    public InvoiceDTO(Client client, List<Book> list, Float value) {
-        this.client = client;
-        this.list = list;
+    public InvoiceDTO(ClientDTO clientDto, List<Book> books, Float value) {
+        this.clientDto = clientDto;
+        this.books = books;
         this.value = value;
     }
 
-    public Client getClient() {
-        return this.client;
+    public ClientDTO getClientDto() {
+        return this.clientDto;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClientDto(ClientDTO clientDto) {
+        this.clientDto = clientDto;
     }
 
-    public List<Book> getList() {
-        return this.list;
+    public List<Book> getBooks() {
+        return this.books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public Float getValue() {
         return this.value;
     }
 
-    public void setUser(Client client) {
-        this.client = client;
-    }
-
-    public void setList(List<Book> list) {
-        this.list = list;
-    }
-
     public void setValue(Float value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " clientDto='" + getClientDto() + "'" +
+            ", books='" + getBooks() + "'" +
+            ", value='" + getValue() + "'" +
+            "}";
     }
 }

@@ -1,9 +1,14 @@
 package com.desafio.estagio.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -17,6 +22,10 @@ public class Book {
     private String author;
     private Float price;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "books")
+    private List<Client> clients;
+
     public Book() {
     }
 
@@ -24,7 +33,14 @@ public class Book {
         this.title = title;
         this.author = author;
         this.price = price;
-    }
+    }   
+
+    public Book(String title, String author, Float price, List<Client> clients) {
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.clients = clients;
+    }    
 
     public Long getId() {
         return this.id;
@@ -58,13 +74,22 @@ public class Book {
         this.price = price;
     }
 
+    public List<Client> getClients() {
+        return this.clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
+
     @Override
     public String toString() {
         return "{" +
-            " bookId='" + getId() + "'" +
+            " id='" + getId() + "'" +
             ", title='" + getTitle() + "'" +
             ", author='" + getAuthor() + "'" +
             ", price='" + getPrice() + "'" +
+            ", clients='" + getClients() + "'" +
             "}";
     }
 }

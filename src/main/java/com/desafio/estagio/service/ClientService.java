@@ -12,4 +12,5 @@ public interface ClientService {
     void createClient(Client client) throws DataIntegrityViolationException;
     InvoiceDTO buyBook(String itin, TitleListDTO titleListDTO) throws Exception;
     ClientDTO incrementBalance(String itin, Float balance) throws ResourceNotFoundException;
+    ClientDTO getClient(String itin);
 }

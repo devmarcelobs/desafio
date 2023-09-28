@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,10 +32,24 @@ public class Client {
     private String email;
     private Float balance;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    private List<Book> bookList;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "client_has_book",
+        joinColumns = {@JoinColumn(name = "client_fk")},
+        inverseJoinColumns = {@JoinColumn(name = "book_fk")}
+    )
+    private List<Book> books;
 
     public Client() {
+    }
+
+    public Client(String name, String lastName, String itin, String email, Float balance, List<Book> books) {
+        this.name = name;
+        this.lastName = lastName;
+        this.itin = itin;
+        this.email = email;
+        this.balance = balance;
+        this.books = books;
     }
 
     public Client(String name, String lastName, String itin, String email, Float balance) {
@@ -92,12 +108,12 @@ public class Client {
         this.balance = balance;
     }
 
-    public List<Book> getBookList() {
-        return this.bookList;
+    public List<Book> getBooks() {
+        return this.books;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override
@@ -109,7 +125,7 @@ public class Client {
             ", itin='" + getItin() + "'" +
             ", email='" + getEmail() + "'" +
             ", balance='" + getBalance() + "'" +
-            ", bookList='" + getBookList() + "'" +
+            ", books='" + getBooks() + "'" +
             "}";
     }
 }

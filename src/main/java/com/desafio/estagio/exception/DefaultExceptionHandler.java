@@ -50,4 +50,16 @@ public class DefaultExceptionHandler {
 
         return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleException(Exception exception, HttpServletRequest request){
+        ApiError apiError = new ApiError(
+            request.getRequestURL().toString(),
+            exception.getMessage(),
+            HttpStatus.BAD_REQUEST.value(),
+            LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
 }

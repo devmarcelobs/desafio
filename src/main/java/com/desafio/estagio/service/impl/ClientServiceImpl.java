@@ -47,6 +47,10 @@ public class ClientServiceImpl implements ClientService{
 
         Client client = clientRepository.findByItin(itin);
 
+        if(client == null){
+            throw new ResourceNotFoundException("Usuário não cadastrado!");
+        }
+
         for(String title : titleListDTO.getTitleList()){
             Book book = bookService.getBook(title);
 
@@ -57,9 +61,11 @@ public class ClientServiceImpl implements ClientService{
 
         if(client.getBalance() >= value){
             client.setBalance(client.getBalance() - value);
+            client.getBooks().addAll(bookList);
+
             clientRepository.save(client);
 
-            return new InvoiceDTO(client, bookList, value);
+            return new InvoiceDTO(new ClientDTO(client.getName(), client.getLastName(), client.getBalance()), bookList, value);
         }
         else{
             throw new Exception("Saldo insuficiente para a compra!");
@@ -80,5 +86,16 @@ public class ClientServiceImpl implements ClientService{
         else{
             throw new ResourceNotFoundException("Usuário não cadastrado!");
         }
+    }
+
+    @Override
+    public ClientDTO getClient(String itin) {
+        Client client = clientRepository.findByItin(itin);
+
+        if(client == null){
+            throw new ResourceNotFoundException("Usuário não cadastrado!");
+        }
+
+        return new ClientDTO(client.getName(), client.getLastName(), client.getBalance(), client.getBooks());
     }
 }

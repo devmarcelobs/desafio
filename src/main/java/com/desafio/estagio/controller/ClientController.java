@@ -2,6 +2,7 @@ package com.desafio.estagio.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +43,13 @@ public class ClientController {
     @PatchMapping(value = "/incrementBalance")
     public ResponseEntity<ClientDTO> incrementBalance(@RequestParam("itin") String itin, @RequestParam("balance") float balance){
         ClientDTO clientDto = clientService.incrementBalance(itin, balance);
+
+        return ResponseEntity.ok().body(clientDto);
+    }
+
+    @GetMapping(value = "/getClient")
+    public ResponseEntity<ClientDTO> getClient(@RequestParam("itin") String itin){
+        ClientDTO clientDto = clientService.getClient(itin);
 
         return ResponseEntity.ok().body(clientDto);
     }
